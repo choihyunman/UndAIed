@@ -30,7 +30,7 @@ function GameMain() {
           <div className=" z-10 slide-in-top w-full  ">
             <GameHeader />
           </div>
-          <div className="flex-1 md:flex md:m-12 md:mb-5 mb-5 items-center justify-center">
+          <div className="flex-1 md:flex md:m-12 mx-5  mb-5 items-center justify-center">
             <div className="slide-in-left max-h-[1200px]">
               <GameSidebar />
             </div>
@@ -45,6 +45,9 @@ function GameMain() {
                 <GameMainChat />
               </div>
             </div>
+          </div>
+          <div className="slide-in-right z-10">
+            <GameMainMenu />
           </div>
         </div>
       </div>
