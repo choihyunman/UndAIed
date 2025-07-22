@@ -63,7 +63,7 @@ public class GameInitHandler {
                 try {
                     int gameId = gameInitService.startGame(client, roomId);
 
-                    // ✅ 로비 업데이트 이벤트 전송
+                    // 로비 업데이트 이벤트 전송
                     LobbyUpdateResponseDto updateResponseDto = gameInitService.createLobbyUpdateResponse(roomId);
                     namespace.getRoomOperations(LOBBY_ROOM)
                             .sendEvent(UPDATE_ROOM_AT_LOBBY.getValue(), updateResponseDto);
@@ -101,18 +101,18 @@ public class GameInitHandler {
                     throw new SocketException(SocketErrorCode.SOCKET_AUTHENTICATION_FAILED);
                 }
 
-                // 🔹 Redis에서 userId에 해당하는 number 조회
+                // Redis에서 userId에 해당하는 number 조회
                 String numberMappingKey = GAME_KEY_PREFIX + gameId + ":number_mapping";
                 String assignedNumberStr = (String) redisTemplate.opsForHash().get(numberMappingKey, userId.toString());
 
                 Integer assignedNumber = (assignedNumberStr != null) ? Integer.parseInt(assignedNumberStr) : null;
 
-                // ✅ `NumberResponseDto` 객체 생성
+                // `NumberResponseDto` 객체 생성
                 NumberResponseDto numberResponse = NumberResponseDto.builder()
                         .number(assignedNumber)
                         .build();
 
-                // 🔹 응답 전송 (ACK 응답에 number 포함)
+                // 응답 전송 (ACK 응답에 number 포함)
                 sendResponse(ackRequest, true, numberResponse);
                 gameInitService.sendGameInfo(gameId);
 
@@ -131,7 +131,7 @@ public class GameInitHandler {
             Map<String, Object> response = new HashMap<>();
             response.put("success", success);
             response.put("errorMessage", success ? null : data);
-            response.put("data", success ? data : null);  // ✅ 성공 시 `data`에 NumberResponseDto 포함
+            response.put("data", success ? data : null);  // 성공 시 `data`에 NumberResponseDto 포함
 
             // success가 true이고 data가 NumberResponseDto인 경우에만 number 추출
             if (success && data instanceof NumberResponseDto) {
